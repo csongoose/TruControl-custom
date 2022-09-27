@@ -1,4 +1,5 @@
 import yaml                                     # code cleared up
+from time import sleep
 
 def set_port(state):
     file_name = "config.yml"
@@ -37,3 +38,31 @@ def readConfig(value):
 def debugprint(msg):
     if readConfig('debugMode'):
         print(msg)
+
+def askForSetup():
+    print('Do you want to run setup the next time you start the software? (y/n)')
+    askForInput = True
+    while askForInput:
+        dInput = input()
+        if dInput == 'y':
+            with open("config.yml", 'r') as config:
+                doc = yaml.safe_load(config)
+                cfg = doc['CONFIG']
+                cfg['firstRun'] = True
+            with open('config.yml', 'w') as config:
+                yaml.safe_dump(doc, config, default_flow_style=False)
+            print('Setup will be opened the next time you start the software.')
+            print('Software will shut down in 3 seconds.')
+            askForInput = False
+            sleep(3)
+            exit()
+
+        elif dInput == 'n':
+            print('Setup will not be opened.')
+            print('Software will shut down in 3 seconds.')
+            askForInput = False
+            sleep(3)
+            exit()
+
+        elif dInput != 'n' and dInput != 'y':
+            print('Please give a valid answer! (y/n)')

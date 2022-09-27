@@ -2,9 +2,8 @@ import yaml                         #runs at first start
 import serial.tools.list_ports
 from time import sleep
 from urllib.request import urlopen
-from functions import set_port
-from functions import set_url
-from functions import readArduinoConfig
+from functions import (set_port, set_url, readConfig, readArduinoConfig)
+
 
 def firstRun():
     baudRate = readArduinoConfig('baudRate')
@@ -44,7 +43,7 @@ def firstRun():
         urlInput = input()
         set_url(urlInput)
         try:
-            response = urlopen(urlInput)
+            response = urlopen(readConfig('url'))
             print('Url okay, ending setup.')
             readingUrl = False
         except:

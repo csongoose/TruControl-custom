@@ -6,7 +6,7 @@ from urllib.request import urlopen
 import yaml
 import serial.tools.list_ports
 import firstrun
-from functions import(readConfig, readArduinoConfig, debugprint)
+from functions import(readConfig, readArduinoConfig, debugprint, askForSetup)
 
 def getState(chckState):
     global data_truck
@@ -53,10 +53,22 @@ debugprint('port read:')
 debugprint(port)
 debugprint('url read:')
 debugprint(url)
-print('Connecting with arduino...')
-arduino = serial.Serial(port=port, baudrate=baudRate, timeout=.1)
+print('Attempting connection with the arduino...')
+try:
+    arduino = serial.Serial(port=port, baudrate=baudRate, timeout=.1)
+    sendArduino('hndshk')
+except Exception as e2:
+    print('Connection failed!')
+    debugprint(e2)
+    askForSetup()
+
 print('Attempting connection with the telemetry server...')
-response = urlopen(url)
+try:
+    response = urlopen(url)
+except Exception as e1:
+    print('Failed to open telemetry data')
+    debugprint(e1)
+    askForSetup()
 print('Checking for game...')
 
 while True:                                                                 # initializing
