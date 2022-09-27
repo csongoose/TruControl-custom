@@ -1,4 +1,4 @@
-name = "TruControl Custom"                  # code cleaned up
+name = "TruControl Custom"  # code cleaned up
 version = "0.0.1"
 
 import json
@@ -6,14 +6,16 @@ from urllib.request import urlopen
 import yaml
 import serial.tools.list_ports
 import firstrun
-from functions import(readConfig, readArduinoConfig, debugprint, askForSetup)
+from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
-def getState(chckState):
+
+def getState(chckState):  # only checks in preloaded list
     global data_truck
     state = data_truck.get(chckState)
     return state
 
-def getPrevState(chckState):
+
+def getPrevState(chckState):  # loads url every instance to avoid desync
     global url
     response = urlopen(url)
     data_json = json.loads(response.read())
@@ -21,9 +23,11 @@ def getPrevState(chckState):
     state = data_truck.get(chckState)
     return state
 
+
 def sendArduino(msg):
     arduino.write(bytes(msg, 'utf-8'))
     arduino.write(b'\n')
+
 
 # read config file:
 with open('config.yml', 'r') as ymlRead:
@@ -71,7 +75,7 @@ except Exception as e1:
     askForSetup()
 print('Checking for game...')
 
-while True:                                                                 # initializing
+while True:  # initializing
     response = urlopen(url)
     data_json = json.loads(response.read())
     data_game = data_json.get('game')
@@ -84,19 +88,16 @@ while True:                                                                 # in
         prevGameState = 1
         break
 
-blinkerPrevState = 3                                                        # initial variable settings
+blinkerPrevState = 3  # initial variable settings
 indLgtHghPrevState = getPrevState('lightsBeamHighOn')
-indLgtPrkPrevState = getPrevState('lightsParkingOn')    #
-indLgtLowPrevState = getPrevState('lightsBeamLowOn')    #
-indLgtBcnPrevState = getPrevState('lightsBeaconOn')     #
+indLgtPrkPrevState = getPrevState('lightsParkingOn')  #
+indLgtLowPrevState = getPrevState('lightsBeamLowOn')  #
+indLgtBcnPrevState = getPrevState('lightsBeaconOn')  #
 # no diff lock info!
-indHndBrkPrevState = getPrevState('parkBrakeOn')        #
-indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')    #
-indNoOilpPrevState = getPrevState('oilPressureWarningOn')       #
+indHndBrkPrevState = getPrevState('parkBrakeOn')  #
+indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')  #
+indNoOilpPrevState = getPrevState('oilPressureWarningOn')  #
 truckElecPrevState = getPrevState('electricOn')
-
-
-
 
 while True:
     while arduino.inWaiting():
