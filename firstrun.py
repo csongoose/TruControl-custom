@@ -1,8 +1,8 @@
-import yaml                         #runs at first start
+import yaml                         # runs at first start
 import serial.tools.list_ports
 from time import sleep
 from urllib.request import urlopen
-from functions import (set_port, set_url, readConfig, readArduinoConfig)
+from functions import (set_port, set_url, readConfig, readArduinoConfig, debugprint)
 
 
 def firstRun():
@@ -30,7 +30,7 @@ def firstRun():
             readingPort = False
         except Exception as e:
             print('Wrong port, please try again!')
-            print(e)
+            debugprint(e)
 
     set_port(portReadFromInput)
     print('Port was set!')
@@ -46,8 +46,9 @@ def firstRun():
             response = urlopen(readConfig('url'))
             print('Url okay, ending setup.')
             readingUrl = False
-        except:
+        except Exception as e:
             print('Url not found. Please enter a valid url and make sure your telemetry server is running!')
+            debugprint(e)
             print('Enter a valid url!')
 
     print('Setup completed, exiting software in 3 seconds, please restart!')
