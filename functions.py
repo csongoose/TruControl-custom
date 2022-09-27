@@ -1,4 +1,4 @@
-import yaml
+import yaml                                     # code cleared up
 
 def set_port(state):
     file_name = "config.yml"

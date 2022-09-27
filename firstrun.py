@@ -1,4 +1,4 @@
-import yaml
+import yaml                         #runs at first start
 import serial.tools.list_ports
 from time import sleep
 from urllib.request import urlopen
