@@ -3,17 +3,10 @@ version = "0.0.1"
 
 import json
 from urllib.request import urlopen
-
-import serial
 import yaml
 import serial.tools.list_ports
-from time import sleep
-
-
-def debugprint(msg):
-    global debugMode
-    if debugMode:
-        print(msg)
+import firstrun
+from functions import(readConfig, readArduinoConfig, debugprint)
 
 def getState(chckState):
     global data_truck
@@ -28,40 +21,20 @@ def getPrevState(chckState):
     state = data_truck.get(chckState)
     return state
 
-def set_port(state):
-    file_name = "config.yml"
-    with open(file_name) as f:
-        doc = yaml.safe_load(f)
-
-        ard = doc['ARDUINO']
-        ard['port'] = state
-    with open(file_name, 'w') as f:
-        yaml.safe_dump(doc, f, default_flow_style=False)
-
-def read_port():
-    with open('config.yml', 'r') as docread:
-        doc = yaml.safe_load(docread)
-        ard = doc['ARDUINO']
-        rport = ard['port']
-        return rport
-
 def sendArduino(msg):
     arduino.write(bytes(msg, 'utf-8'))
     arduino.write(b'\n')
-
 
 # read config file:
 with open('config.yml', 'r') as ymlRead:
     configFile = yaml.safe_load(ymlRead)
 
-configSection = configFile['CONFIG']
-url = configSection['url']
-debugMode = configSection['debugMode']
-firstRun = configSection['firstRun']
+url = readConfig('url')
+debugMode = readConfig('debugMode')
+firstRun = readConfig('firstRun')
 
-arduinoSection = configFile['ARDUINO']
-port = arduinoSection['port']
-baudRate = arduinoSection['baudRate']
+port = readArduinoConfig('port')
+baudRate = readArduinoConfig('baudRate')
 
 prevGameState = 1
 
@@ -70,29 +43,7 @@ prevGameState = 1
 # first run setup:
 
 if firstRun:
-    print('This is your first time running this programme, some setup settings are required.')
-    print('Please make sure that your arduino board is connected and running, then press Enter')
-    input()
-    ports = list(serial.tools.list_ports.comports())
-    num = 1
-    for p in ports:
-        print(str(num), p)
-        num +=1
-    print()
-    print('Please select your arduino board!')
-    print('Type the COM port of your board (e.g COM4)')
-    portReadFromInput = input()
-    try:
-        arduino = serial.Serial(port=portReadFromInput, baudrate=baudRate, timeout=.1)
-        sendArduino('hndshk')
-    except:
-        print('Wrong port, please restart the software!')
-        exit()
-
-    set_port(portReadFromInput)
-    print('Port was set! Baudrate used is: ', str(baudRate))
-    print()
-    print()
+    firstrun.firstRun()
 
 # start of programme
 
