@@ -1,3 +1,5 @@
+import time
+
 name = "TruControl Custom"  # code cleaned up
 version = "0.0.1"
 
@@ -102,6 +104,9 @@ truckElecPrevState = getPrevState('electricOn')
 while True:
     while arduino.inWaiting():
         message = arduino.readline().decode('utf-8').partition('\n')[0]
+        if debugMode == True:
+            if message == 'hndshkresp':
+                print('Handshake completed!')
 
     response = urlopen(url)
     data_json = json.loads(response.read())
