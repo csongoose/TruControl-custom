@@ -40,7 +40,7 @@ Button susBckDn(44);        // type: Button  OnPress, OnRelease
 Button susReset(47);        // type: Button  OnPress
 Button truAxl(45);          // type: Button  OnPress
 Button trlAxl(46);          // type: Button  OnPress
-Button deSync(1);     //set to 1 for testing, please reset!
+Button deSync(52);
 
 // Define outputs
 #define indLgtPrk 31
@@ -396,4 +396,5 @@ void loop() {
   }
 
   // Added this here so the code is exactly 400 lines. May the gods of semicolons bless you.
+  
 }
