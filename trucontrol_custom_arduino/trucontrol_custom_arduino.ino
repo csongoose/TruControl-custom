@@ -225,7 +225,7 @@ void loop() {
     if (retPos3.pressed()) {
       Serial.println("retPos3");
     }
-    if (retPos3.pressed()) {
+    if (retPos4.pressed()) {
       Serial.println("retPos4");
     }
 
