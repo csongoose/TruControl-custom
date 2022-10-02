@@ -5,42 +5,42 @@
 #define serial1 1
 
 Button emergency(2);        // Note: The software emergency and the desync buttons are for completely different occurences.
-Button retOff(3);
+Button retOff(3);           // type: Rotary common GND
 Button retPos1(4);
 Button retPos2(5);
 Button retPos3(6);
 Button retPos4(7);
-Button engBrk(8);
-Button lgtOff(9);
+Button engBrk(8);           // type: Button  OnPress, onRelease
+Button lgtOff(9);           // type: Rotary common GND
 Button lgtPrk(10);
 Button lgtLow(11);
-Button lgtHgh(12);
-Button blnLft(13);
+Button lgtHgh(12);          // type: Switch  OnPress, onRelease
+Button blnLft(13);          // type: Switch  OnPress, onRelease
 Button blnRgt(14);
-Button wipOff(15);
+Button wipOff(15);          // type: Rotary common GND
 Button wipSpd1(16);
 Button wipSpd2(17);
 Button wipSpd3(18);
-Button elcOff(19);
+Button elcOff(19);          // type: Ignition common GND
 Button elcIgn(20);
 Button engSrt(21);
-Button trdWhl(22);
-Button lgtBcn(23);
-Button lgtHzd(24);
-Button difLoc(25);
-Button hndBrk(26);
-Button winLdn(27);
-Button winLup(28);
-Button winRdn(29);
-Button winRup(30);
-Button susFrtUp(41);
-Button susFrtDn(42);
-Button susBckUp(43);
-Button susBckDn(44);
-Button susReset(47);
-Button truAxl(45);
-Button trlAxl(46);
-Button deSync(52);
+Button trdWhl(22);          // type: Switch  OnPress, onRelease
+Button lgtBcn(23);          // type: Switch  OnPress, onRelease
+Button lgtHzd(24);          // type: Switch  OnPress, onRelease
+Button difLoc(25);          // type: Switch  OnPress, onRelease
+Button hndBrk(26);          // type: Switch  OnPress, onRelease
+Button winLdn(27);          // type: Button  OnPress, onRelease
+Button winLup(28);          // type: Button  OnPress, onRelease
+Button winRdn(29);          // type: Button  OnPress, onRelease
+Button winRup(30);          // type: Button  OnPress, onRelease
+Button susFrtUp(41);        // type: Button  OnPress, onRelease
+Button susFrtDn(42);        // type: Button  OnPress, OnRelease
+Button susBckUp(43);        // type: Button  OnPress, OnRelease
+Button susBckDn(44);        // type: Button  OnPress, OnRelease
+Button susReset(47);        // type: Button  OnPress
+Button truAxl(45);          // type: Button  OnPress
+Button trlAxl(46);          // type: Button  OnPress
+Button deSync(1);     //set to 1 for testing, please reset!
 
 // Define outputs
 #define indLgtPrk 31
@@ -126,7 +126,7 @@ void setup() {
   pinMode(indNoChrg, OUTPUT);
   pinMode(indNoOilp, OUTPUT);
   
-  digitalWrite(indLgtPrk, HIGH);
+  digitalWrite(indLgtPrk, HIGH);      // LED test
   digitalWrite(indLgtLow, HIGH);
   digitalWrite(indLgtHgh, HIGH);
   digitalWrite(indBlnLft, HIGH);
@@ -159,6 +159,11 @@ void setup() {
   Serial.begin(9600);
   delay(50);
 
+  digitalWrite(indLgtPrk, HIGH);        // indicating that the program is starting
+  digitalWrite(indLgtLow, HIGH);
+  delay(500);
+  digitalWrite(indLgtPrk, LOW);
+  digitalWrite(indLgtPrk, LOW);
 }
 
 void loop() {
@@ -204,11 +209,191 @@ void loop() {
 
   // start of message sending block
 
-  if (deSync.read() == Button::RELEASED) {            // Desync button check. The whole part onyl runs if the desync button is released.
+  if (deSync.read() == Button::RELEASED) {
 
 
+    //retarder
+    if (retOff.pressed()) {
+      Serial.println("retOff");
+    }
+    if (retPos1.pressed()) {
+      Serial.println("retPos1");
+    }
+    if (retPos2.pressed()) {
+      Serial.println("retPos2");
+    }
+    if (retPos3.pressed()) {
+      Serial.println("retPos3");
+    }
+    if (retPos3.pressed()) {
+      Serial.println("retPos4");
+    }
 
+    // engine brake
+    if (engBrk.pressed()) {
+      Serial.println("engBrkOn");
+    }
+    if (engBrk.released()) {
+      Serial.println("engBrkOff");
+    }
+
+    // lights (except high beam)
+    if (lgtOff.pressed()) {
+      Serial.println("lgtOff");
+    }
+    if (lgtPrk.pressed()) {
+      Serial.println("lgtPrk");
+    }
+    if (lgtLow.pressed()) {
+      Serial.println("lgtLow");
+    }
+
+    // high beams
+    if (lgtHgh.pressed() || lgtHgh.released()) {
+      Serial.println("lgtHgh");
+    }
+
+    // blinkers
+    if (blnLft.pressed()) {
+      Serial.println("blnLftOn");
+    }
+    if (blnLft.released()) {
+      Serial.println("blnLftOff");
+    }
+    if (blnRgt.pressed()) {
+      Serial.println("blnRgtOn");
+    }
+    if (blnRgt.released()) {
+      Serial.println("blnRgtOff");
+    }
+
+    // wipers
+    if(wipOff.pressed()) {
+      Serial.println("wipOff");
+    }
+    if (wipSpd1.pressed()) {
+      Serial.println("wipSpd1");
+    }
+    if (wipSpd2.pressed()) {
+      Serial.println("wipSpd2");
+    }
+    if (wipSpd3.pressed()) {
+      Serial.println("wipSpd3");
+    }
+
+    // electrics/ignition/start
+    if (elcOff.pressed()) {
+      Serial.println("elcOff");
+    }
+    if (elcIgn.pressed()) {
+      Serial.println("elcIgn");
+    }
+    if (engSrt.pressed()) {
+      Serial.println("engSrt");
+    }
+
+    // trailer/third wheel attach/detach
+    if (trdWhl.pressed() || trdWhl.released()) {
+      Serial.println("trdWhl");
+    }
+
+    // beacons
+    if (lgtBcn.pressed() || lgtBcn.released()) {
+      Serial.println("lgtBcn");
+    }
+
+    // hazards
+    if (lgtHzd.pressed() || lgtHzd.released()) {
+      Serial.println("lgtHzd");
+    }
+
+    // difflock + indicator handling
+    if (difLoc.pressed()) {
+      Serial.println("difLoc");
+      digitalWrite(indDifLoc, HIGH);
+    }
+    if (difLoc.released()) {
+      Serial.println("digLoc");
+      digitalWrite(indDifLoc, LOW);
+    }
+    
+    // handbrake
+    if (hndBrk.pressed() || hndBrk.released()) {
+      Serial.println("hndBrk");
+    }
+
+    // left window
+    if (winLdn.pressed()) {
+      Serial.println("winLdnOn");
+    }
+    if (winLdn.released()) {
+      Serial.println("winLdnOff");
+    }
+    if (winLup.pressed()) {
+      Serial.println("winLupOn");
+    }
+    if (winLup.released()) {
+      Serial.println("winLupOff");
+    }
+
+    // right window
+    if (winRdn.pressed()) {
+      Serial.println("winRdnOn");
+    }
+    if (winRdn.released()) {
+      Serial.println("winRdnOff");
+    }
+    if (winRup.pressed()) {
+      Serial.println("winRupOn");
+    }
+    if (winRup.released()) {
+      Serial.println("winRupOff");
+    }
+
+    // front suspension
+    if (susFrtUp.pressed()) {
+      Serial.println("susFrtUpOn");
+    }
+    if (susFrtUp.released()) {
+      Serial.println("susFrtUpOff");
+    }
+    if (susFrtDn.pressed()) {
+      Serial.println("susFrtDnOn");
+    }
+    if (susFrtDn.released()) {
+      Serial.println("susFrtDnOff");
+    }
+
+    // rear suspension (for some reason I used back in the software handles smh...)
+    if (susBckUp.pressed()) {
+      Serial.println("susBckUpOn");
+    }
+    if (susBckUp.released()) {
+      Serial.println("susBckUpOff");
+    }
+    if (susBckDn.pressed()) {
+      Serial.println("susBckDnOn");
+    }
+    if (susBckDn.released()) {
+      Serial.println("susBckDnOff");
+    }
+
+    // suspension reset                 Help, the IDE is using up all of my RAM and is becoming sentient
+    if (susReset.pressed()) {
+      Serial.println("susReset");
+    }
+
+    // truck axle
+    if (truAxl.pressed()) {
+      Serial.println("truAxl");
+    }
+
+    // trailer axle
+    if (trlAxl.pressed()) {
+      Serial.println("trlAxl");
+    }
 
   }
 
+  // Added this here so the code is exactly 400 lines. May the gods of semicolons bless you.
 }
