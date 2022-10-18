@@ -1,0 +1,49 @@
+Switches:
+  Retarder:
+    retOffKey: num 0
+    retPos1Key: num 1
+    retPos2Key: num 2
+    retPos3Key: num 3
+    retPos4Key: num 4
+  Lights:
+    lgtOffKey: L
+    lgtPrkKey: Home
+    lgtLowKey: End
+    lgtHghKey: K
+  Blinkers:
+    blnLftKey: left
+    blnRgtKey: right
+  Wipers:
+    wipOffKey: F13
+    wipSpd1Key: F14
+    wipSpd2Key: F15
+    wipSpd3Key: F16
+  Ignition:
+    elcOffKey: num divide
+    elcIgnKey: num multiply
+    engSrtKey: num minus
+  Switchboard:
+    trdWhlKey: T
+    lgtBcnKey: O
+    lgtHzdKey: F
+    difLocKey: V
+    hndBrkKey: space
+
+
+Buttons:
+  Switchboard:
+    engBrkKey: B
+    truAxlKey: U
+    trlAxlKey: Y
+  Windows:
+    winLdnKey: del
+    winLupKey: ins
+    winRdnKey: pgup
+    winRupKey: pgdown
+  Suspension:
+    susFrtUpKey: F17
+    susFrtDnKey: F18
+    susBckUpKey: F19
+    susBckDnKey: F20
+    susResetKey: num plus
+
