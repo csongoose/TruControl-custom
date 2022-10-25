@@ -1,10 +1,14 @@
+# Note: Due to software limitations and the original implementation, the marked values are handled by the keyboard module instead of pyautogui.
+# This means that in case of changing values, the keyboard module's valid keys must be used instead of the pyautogui ones.
+# The keyboard module valid keys can be found in the validkeys.md file. The pyautogui valid keys can be accessed on the following url: https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
+
 Switches:
   Retarder:
-    retOffKey: num 0
-    retPos1Key: num 1
-    retPos2Key: num 2
-    retPos3Key: num 3
-    retPos4Key: num 4
+    retOffKey: num0
+    retPos1Key: num1
+    retPos2Key: num2
+    retPos3Key: num3
+    retPos4Key: num4
   Lights:
     lgtOffKey: L
     lgtPrkKey: Home
@@ -14,14 +18,14 @@ Switches:
     blnLftKey: left
     blnRgtKey: right
   Wipers:
-    wipOffKey: F13
-    wipSpd1Key: F14
-    wipSpd2Key: F15
-    wipSpd3Key: F16
+    wipOffKey: f13
+    wipSpd1Key: f14
+    wipSpd2Key: f15
+    wipSpd3Key: f16
   Ignition:
-    elcOffKey: num divide
-    elcIgnKey: num multiply
-    engSrtKey: num minus
+    elcOffKey: num divide               # handled by keyboard module
+    elcIgnKey: num multiply             # handled by keyboard module
+    engSrtKey: num minus                # handled by keyboard module
   Switchboard:
     trdWhlKey: T
     lgtBcnKey: O
@@ -36,14 +40,14 @@ Buttons:
     truAxlKey: U
     trlAxlKey: Y
   Windows:
-    winLdnKey: del
-    winLupKey: ins
-    winRdnKey: pgup
-    winRupKey: pgdown
+    winLdnKey: delete
+    winLupKey: insert
+    winRdnKey: pageup
+    winRupKey: pagedown
   Suspension:
-    susFrtUpKey: F17
-    susFrtDnKey: F18
-    susBckUpKey: F19
-    susBckDnKey: F20
-    susResetKey: num plus
+    susFrtUpKey: f17
+    susFrtDnKey: f18
+    susBckUpKey: f19
+    susBckDnKey: f20
+    susResetKey: num plus               # handled by keyboard module
 

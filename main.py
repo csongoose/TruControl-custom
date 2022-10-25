@@ -1,11 +1,14 @@
 name = "TruControl Custom"  # code cleaned up
-version = "0.0.2"
+version = "0.1.1"
 
 import json
 from urllib.request import urlopen
 import yaml
 import serial.tools.list_ports
 import firstrun
+import keyboard
+import pyautogui
+import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 
@@ -99,9 +102,136 @@ indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')  #
 indNoOilpPrevState = getPrevState('oilPressureWarningOn')  #
 truckElecPrevState = getPrevState('electricOn')
 
+retarderKeys = inputhandling.keys.Switches.Retarder()
+lightKeys = inputhandling.keys.Switches.Lights()
+blinkerKeys = inputhandling.keys.Switches.Blinkers()
+wiperKeys = inputhandling.keys.Switches.Wipers()
+ignitionKeys = inputhandling.keys.Switches.Ignition()
+switchboardKeys = inputhandling.keys.Switches.Switchboard()
+
+switchboardButtons = inputhandling.keys.Buttons.Switchboard()
+windowButtons = inputhandling.keys.Buttons.Windows()
+suspensionButtons = inputhandling.keys.Buttons.Suspension()
+
 while True:
-    while arduino.inWaiting():
+    while arduino.inWaiting():  # input handling
         message = arduino.readline().decode('utf-8').partition('\r')[0]
+
+        # retarder
+        if message == 'retOff':
+            pyautogui.press(retarderKeys.retOffKey)
+        elif message == 'retPos1':
+            pyautogui.press(retarderKeys.retPos1Key)
+        elif message == 'retPos2':
+            pyautogui.press(retarderKeys.retPos2Key)
+        elif message == 'retPos3':
+            pyautogui.press(retarderKeys.retPos3Key)
+        elif message == 'retPos4':
+            pyautogui.press(retarderKeys.retPos4Key)
+
+        # lights
+        elif message == 'lgtOff':
+            pyautogui.press(lightKeys.lgtOffKey)
+        elif message == 'lgtPrk':
+            pyautogui.press(lightKeys.lgtPrkKey)
+        elif message == 'lgtLow':
+            pyautogui.press(lightKeys.lgtLowKey)
+        elif message == 'lgtHgh':
+            pyautogui.press(lightKeys.lgtHghKey)
+
+        # blinkers
+        elif message == 'blnLftOn' or message == 'blnLftOff':
+            pyautogui.press(blinkerKeys.blnLftKey)
+        elif message == 'blnRgtOn' or message == 'blnRgtOff':
+            pyautogui.press(blinkerKeys.blnRgtKey)
+
+        # wipers
+        elif message == 'wipOff':
+            pyautogui.press(wiperKeys.wipOffKey)
+        elif message == 'wipSpd1':
+            pyautogui.press(wiperKeys.wipSpd1Key)
+        elif message == 'wipSpd2':
+            pyautogui.press(wiperKeys.wipSpd2Key)
+        elif message == 'wipSpd3':
+            pyautogui.press(wiperKeys.wipSpd3Key)
+
+        # ignition and electrics - NOTE: handled by keyboard module due to the numpad limitations of pyautogui
+        elif message == 'elcOff':
+            keyboard.press_and_release(ignitionKeys.elcOffKey)
+        elif message == 'elcIgn':
+            keyboard.press_and_release(ignitionKeys.elcIgnKey)
+        elif message == 'engSrt':
+            keyboard.press_and_release(ignitionKeys.engSrtKey)
+
+        # switches on the switchboard:
+        elif message == 'trdWhl':
+            pyautogui.press(switchboardKeys.trdWhlKey)
+        elif message == 'lgtBcn':
+            pyautogui.press(switchboardKeys.lgtBcnKey)
+        elif message == 'lgtHzd':
+            pyautogui.press(switchboardKeys.lgtHzdKey)
+        elif message == 'difLoc':
+            pyautogui.press(switchboardKeys.difLocKey)
+        elif message == 'hndBrk':
+            pyautogui.press(switchboardKeys.hndBrkKey)
+
+        # engine brake
+        elif message == 'engBrkOn':
+            pyautogui.keyDown(switchboardButtons.engBrkKey)
+        elif message == 'engBrkOff':
+            pyautogui.keyUp(switchboardButtons.engBrkKey)
+
+        # axle lifting
+        elif message == 'truAxl':
+            pyautogui.press(switchboardButtons.truAxlKey)
+        elif message == 'trlAxl':
+            pyautogui.press(switchboardButtons.trlAxlKey)
+
+        # windows
+        # right window
+        elif message == 'winRdnOn':
+            pyautogui.keyDown(windowButtons.winRdnKey)
+        elif message == 'winRdnOff':
+            pyautogui.keyUp(windowButtons.winRdnKey)
+        elif message == 'winRupOn':
+            pyautogui.keyDown(windowButtons.winRupKey)
+        elif message == 'winRupOff':
+            pyautogui.keyUp(windowButtons.winRupKey)
+
+        # left window
+        elif message == 'winLdnOn':
+            pyautogui.keyDown(windowButtons.winLdnKey)
+        elif message == 'winLdnOff':
+            pyautogui.keyUp(windowButtons.winLdnKey)
+        elif message == 'winLupOn':
+            pyautogui.keyDown(windowButtons.winLupKey)
+        elif message == 'winLdnOn':
+            pyautogui.keyUp(windowButtons.winLupKey)
+
+        # suspension
+        # front suspension
+        elif message == 'susFrtUpOn':
+            pyautogui.keyDown(suspensionButtons.susFrtUpKey)
+        elif message == 'susFrtUpOff':
+            pyautogui.keyUp(suspensionButtons.susFrtUpKey)
+        elif message == 'susFrtDnOn':
+            pyautogui.keyDown(suspensionButtons.susFrtDnKey)
+        elif message == 'susFrtUpOn':
+            pyautogui.keyUp(suspensionButtons.susFrtDnKey)
+
+        # rear suspension
+        elif message == 'susBckUpOn':
+            pyautogui.keyDown(suspensionButtons.susBckUpKey)
+        elif message == 'susBckUpOff':
+            pyautogui.keyUp(suspensionButtons.susBckUpKey)
+        elif message == 'susBckDnOn':
+            pyautogui.keyDown(suspensionButtons.susBckDnKey)
+        elif message == 'susBckDnOff':
+            pyautogui.keyUp(suspensionButtons.susBckDnKey)
+
+        elif message == 'susReset':
+            pyautogui.press(suspensionButtons.susResetKey)
+
         if debugMode == True:
             if message == 'hndshkresp':
                 print('Handshake completed!')
@@ -110,8 +240,8 @@ while True:
     data_json = json.loads(response.read())
     data_truck = data_json.get('truck')
 
-    indBlnLft = getState('blinkerLeftOn')
-    indBlnRgt = getState('blinkerRightOn')
+    indBlnLft = data_json["truck"]["blinkerLeftOn"]
+    indBlnRgt = data_json["truck"]["blinkerRightOn"]
     indLgtHgh = getState('lightsBeamHighOn')
     indLgtPrk = getState('lightsParkingOn')
     indLgtLow = getState('lightsBeamLowOn')
