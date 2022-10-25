@@ -3,5 +3,5 @@ ARDUINO:
   port: COM4
 CONFIG:
   debugMode: false
-  firstRun: false
+  firstRun: true
   url: http://192.168.1.101:25555/api/ets2/telemetry
