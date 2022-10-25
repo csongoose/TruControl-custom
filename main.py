@@ -1,5 +1,5 @@
 name = "TruControl Custom"  # code cleaned up
-version = "0.1.1"
+version = "0.1.2"
 
 import json
 from urllib.request import urlopen
@@ -7,7 +7,7 @@ import yaml
 import serial.tools.list_ports
 import firstrun
 import keyboard
-import pyautogui
+import pydirectinput as pyautogui
 import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
@@ -147,13 +147,13 @@ while True:
 
         # wipers
         elif message == 'wipOff':
-            pyautogui.press(wiperKeys.wipOffKey)
+            keyboard.press_and_release(wiperKeys.wipOffKey)
         elif message == 'wipSpd1':
-            pyautogui.press(wiperKeys.wipSpd1Key)
+            keyboard.press_and_release(wiperKeys.wipSpd1Key)
         elif message == 'wipSpd2':
-            pyautogui.press(wiperKeys.wipSpd2Key)
+            keyboard.press_and_release(wiperKeys.wipSpd2Key)
         elif message == 'wipSpd3':
-            pyautogui.press(wiperKeys.wipSpd3Key)
+            keyboard.press_and_release(wiperKeys.wipSpd3Key)
 
         # ignition and electrics - NOTE: handled by keyboard module due to the numpad limitations of pyautogui
         elif message == 'elcOff':
@@ -211,23 +211,23 @@ while True:
         # suspension
         # front suspension
         elif message == 'susFrtUpOn':
-            pyautogui.keyDown(suspensionButtons.susFrtUpKey)
+            keyboard.press(suspensionButtons.susFrtUpKey)
         elif message == 'susFrtUpOff':
-            pyautogui.keyUp(suspensionButtons.susFrtUpKey)
+            keyboard.release(suspensionButtons.susFrtUpKey)
         elif message == 'susFrtDnOn':
-            pyautogui.keyDown(suspensionButtons.susFrtDnKey)
+            keyboard.press(suspensionButtons.susFrtDnKey)
         elif message == 'susFrtUpOn':
-            pyautogui.keyUp(suspensionButtons.susFrtDnKey)
+            keyboard.release(suspensionButtons.susFrtDnKey)
 
         # rear suspension
         elif message == 'susBckUpOn':
-            pyautogui.keyDown(suspensionButtons.susBckUpKey)
+            keyboard.press(suspensionButtons.susBckUpKey)
         elif message == 'susBckUpOff':
-            pyautogui.keyUp(suspensionButtons.susBckUpKey)
+            keyboard.release(suspensionButtons.susBckUpKey)
         elif message == 'susBckDnOn':
-            pyautogui.keyDown(suspensionButtons.susBckDnKey)
+            keyboard.press(suspensionButtons.susBckDnKey)
         elif message == 'susBckDnOff':
-            pyautogui.keyUp(suspensionButtons.susBckDnKey)
+            keyboard.release(suspensionButtons.susBckDnKey)
 
         elif message == 'susReset':
             pyautogui.press(suspensionButtons.susResetKey)

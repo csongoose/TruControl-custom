@@ -4,11 +4,11 @@
 
 Switches:
   Retarder:
-    retOffKey: num0
-    retPos1Key: num1
-    retPos2Key: num2
-    retPos3Key: num3
-    retPos4Key: num4
+    retOffKey: numpad0
+    retPos1Key: numpad1
+    retPos2Key: numpad2
+    retPos3Key: numpad3
+    retPos4Key: numpad4
   Lights:
     lgtOffKey: l
     lgtPrkKey: Home
@@ -18,10 +18,10 @@ Switches:
     blnLftKey: left
     blnRgtKey: right
   Wipers:
-    wipOffKey: f13
-    wipSpd1Key: f14
-    wipSpd2Key: f15
-    wipSpd3Key: f16
+    wipOffKey: F13                      # handled by keyboard module
+    wipSpd1Key: F14                     # handled by keyboard module
+    wipSpd2Key: F15                     # handled by keyboard module
+    wipSpd3Key: F16                     # handled by keyboard module
   Ignition:
     elcOffKey: num divide               # handled by keyboard module
     elcIgnKey: num multiply             # handled by keyboard module
@@ -45,9 +45,9 @@ Buttons:
     winRdnKey: pageup
     winRupKey: pagedown
   Suspension:
-    susFrtUpKey: f17
-    susFrtDnKey: f18
-    susBckUpKey: f19
-    susBckDnKey: f20
+    susFrtUpKey: F17                    # handled by keyboard module
+    susFrtDnKey: F18                    # handled by keyboard module
+    susBckUpKey: F19                    # handled by keyboard module
+    susBckDnKey: F20                    # handled by keyboard module
     susResetKey: num plus               # handled by keyboard module
 
