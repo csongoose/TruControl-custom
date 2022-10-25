@@ -1,6 +1,3 @@
-name = "TruControl Custom"  # code cleaned up
-version = "0.1.2"
-
 import json
 from urllib.request import urlopen
 import yaml
@@ -11,6 +8,8 @@ import pydirectinput as pyautogui
 import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
+name = "TruControl Custom"  # code cleaned up
+version = "0.1.2"
 
 def getState(chckState):  # only checks in preloaded list
     global data_truck
@@ -232,7 +231,7 @@ while True:
         elif message == 'susReset':
             pyautogui.press(suspensionButtons.susResetKey)
 
-        if debugMode == True:
+        if debugMode:
             if message == 'hndshkresp':
                 print('Handshake completed!')
 
