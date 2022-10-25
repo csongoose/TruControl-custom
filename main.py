@@ -1,5 +1,5 @@
 name = "TruControl Custom"  # code cleaned up
-version = "0.0.1"
+version = "0.0.2"
 
 import json
 from urllib.request import urlopen

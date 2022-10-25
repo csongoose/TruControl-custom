@@ -66,3 +66,23 @@ def askForSetup():
 
         elif dInput != 'n' and dInput != 'y':
             print('Please give a valid answer! (y/n)')
+
+def getSwitch(index, sub):
+    try:
+        with open('keybinding.yml') as f:
+            doc = yaml.safe_load(f)
+        switch = doc['Switches'][index][sub]
+        return switch
+    except Exception as e:
+        print('An exception occured while reading a switch key from the keybinding.yml file. Error message:')
+        print(e)
+
+def getButton(index, sub):
+    try:
+        with open('keybinding.yml') as f:
+            doc = yaml.safe_load(f)
+        button = doc['Buttons'][index][sub]
+        return button
+    except Exception as e:
+        print('An exception occured while reading a button key from the keybinding.yml file. Error message:')
+        print(e)
