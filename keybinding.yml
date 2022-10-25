@@ -10,10 +10,10 @@ Switches:
     retPos3Key: num3
     retPos4Key: num4
   Lights:
-    lgtOffKey: L
+    lgtOffKey: l
     lgtPrkKey: Home
     lgtLowKey: End
-    lgtHghKey: K
+    lgtHghKey: k
   Blinkers:
     blnLftKey: left
     blnRgtKey: right
@@ -27,18 +27,18 @@ Switches:
     elcIgnKey: num multiply             # handled by keyboard module
     engSrtKey: num minus                # handled by keyboard module
   Switchboard:
-    trdWhlKey: T
-    lgtBcnKey: O
-    lgtHzdKey: F
-    difLocKey: V
+    trdWhlKey: t
+    lgtBcnKey: o
+    lgtHzdKey: f
+    difLocKey: v
     hndBrkKey: space
 
 
 Buttons:
   Switchboard:
-    engBrkKey: B
-    truAxlKey: U
-    trlAxlKey: Y
+    engBrkKey: b
+    truAxlKey: u
+    trlAxlKey: y
   Windows:
     winLdnKey: delete
     winLupKey: insert
