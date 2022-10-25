@@ -69,9 +69,10 @@ void pinIo(int pin, String msgOn, String msgOff){
 
 void softwareEmergency() {
   digitalWrite(indNoOilp, HIGH);
-  while (1) {
-    delay(9999);
-  }
+  digitalWrite(indHndBrk, HIGH);
+  delay(500);
+  digitalWrite(indHndBrk, LOW);
+  delay(500);
 }
 
 void setup() {
@@ -171,7 +172,7 @@ void loop() {
   if (Serial.available() > 0) {         // incoming message handling
     msg = Serial.readStringUntil('\n');
 
-    if (msg == 'hndshk') {
+    if (msg == "hndshk") {
       Serial.println("hndshkresp");
     }
 
@@ -210,7 +211,12 @@ void loop() {
   // start of message sending block
 
   if (deSync.read() == Button::RELEASED) {
-
+    
+    if (deSync.released()) {
+      digitalWrite(indNoOilp, LOW);
+      digitalWrite(indNoChrg, LOW);
+      digitalWrite(indLgtPrk, LOW);
+    }
 
     //retarder
     if (retOff.pressed()) {
@@ -313,7 +319,7 @@ void loop() {
       digitalWrite(indDifLoc, HIGH);
     }
     if (difLoc.released()) {
-      Serial.println("digLoc");
+      Serial.println("difLoc");
       digitalWrite(indDifLoc, LOW);
     }
     
@@ -393,6 +399,13 @@ void loop() {
       Serial.println("trlAxl");
     }
 
+  } else if (deSync.read() == Button::PRESSED) {
+    digitalWrite(indNoOilp, HIGH);
+    digitalWrite(indNoChrg, HIGH);
+    digitalWrite(indLgtLow, HIGH);
+    delay(100);
+    digitalWrite(indLgtLow, LOW);
+    delay(100);
   }
 
   // Added this here so the code is exactly 400 lines. May the gods of semicolons bless you.
