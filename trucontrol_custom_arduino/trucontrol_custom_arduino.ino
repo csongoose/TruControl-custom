@@ -1,19 +1,20 @@
 #include <Button.h>
+#include <HardwareSerial.h>
 
 // Define inputs
 #define serial0 0
 #define serial1 1
 
-Button emergency(2);        // Note: The software emergency and the desync buttons are for completely different occurences.
-Button retOff(3);           // type: Rotary common GND
-Button retPos1(4);
-Button retPos2(5);
-Button retPos3(6);
-Button retPos4(7);
-Button engBrk(8);           // type: Button  OnPress, onRelease
-Button lgtOff(9);           // type: Rotary common GND
+Button emergency(7);        // Note: The software emergency and the desync buttons are for completely different occurences.
+Button retOff(6);           // type: Rotary common GND
+Button retPos1(5);
+Button retPos2(4);
+Button retPos3(3);
+Button retPos4(8);
+Button engBrk(2);           // type: Button  OnPress, onRelease
+Button lgtOff(11);           // type: Rotary common GND
 Button lgtPrk(10);
-Button lgtLow(11);
+Button lgtLow(9);
 Button lgtHgh(12);          // type: Switch  OnPress, onRelease
 Button blnLft(13);          // type: Switch  OnPress, onRelease
 Button blnRgt(14);
@@ -21,38 +22,44 @@ Button wipOff(15);          // type: Rotary common GND
 Button wipSpd1(16);
 Button wipSpd2(17);
 Button wipSpd3(18);
-Button elcOff(19);          // type: Ignition common GND
-Button elcIgn(20);
-Button engSrt(21);
-Button trdWhl(22);          // type: Switch  OnPress, onRelease
-Button lgtBcn(23);          // type: Switch  OnPress, onRelease
-Button lgtHzd(24);          // type: Switch  OnPress, onRelease
-Button difLoc(25);          // type: Switch  OnPress, onRelease
-Button hndBrk(26);          // type: Switch  OnPress, onRelease
-Button winLdn(27);          // type: Button  OnPress, onRelease
-Button winLup(28);          // type: Button  OnPress, onRelease
-Button winRdn(29);          // type: Button  OnPress, onRelease
-Button winRup(30);          // type: Button  OnPress, onRelease
-Button susFrtUp(41);        // type: Button  OnPress, onRelease
-Button susFrtDn(42);        // type: Button  OnPress, OnRelease
-Button susBckUp(43);        // type: Button  OnPress, OnRelease
-Button susBckDn(44);        // type: Button  OnPress, OnRelease
-Button susReset(47);        // type: Button  OnPress
-Button truAxl(45);          // type: Button  OnPress
-Button trlAxl(46);          // type: Button  OnPress
-Button deSync(52);
+//Button elcOff(0);          // type: Ignition common GND - Not in use anymore
+Button elcIgn(36);
+Button engSrt(37);
+Button trdWhl(38);          // type: Switch  OnPress, onRelease
+Button lgtBcn(39);          // type: Switch  OnPress, onRelease
+Button lgtHzd(40);          // type: Switch  OnPress, onRelease
+Button difLoc(41);          // type: Switch  OnPress, onRelease
+Button hndBrk(42);          // type: Switch  OnPress, onRelease
+Button winLdn(43);          // type: Button  OnPress, onRelease
+Button winLup(44);          // type: Button  OnPress, onRelease
+Button winRdn(45);          // type: Button  OnPress, onRelease
+Button winRup(46);          // type: Button  OnPress, onRelease
+Button susFrtUp(47);        // type: Button  OnPress, onRelease
+Button susFrtDn(48);        // type: Button  OnPress, OnRelease
+Button susBckUp(49);        // type: Button  OnPress, OnRelease
+Button susBckDn(50);        // type: Button  OnPress, OnRelease
+Button susReset(53);        // type: Button  OnPress
+Button truAxl(51);          // type: Button  OnPress
+Button trlAxl(52);          // type: Button  OnPress
+Button deSync(54);
 
 // Define outputs
-#define indLgtPrk 31
-#define indLgtLow 32
-#define indLgtHgh 33
-#define indBlnLft 34
-#define indBlnRgt 35
-#define indLgtBcn 36
-#define indDifLoc 37
-#define indHndBrk 38
-#define indNoChrg 39
-#define indNoOilp 40
+#define indLgtPrk 19
+#define indLgtLow 20
+#define indLgtHgh 21
+#define indBlnLft 22
+#define indBlnRgt 23
+#define indLgtBcn 24
+#define indDifLoc 25
+#define indHndBrk 26
+#define indNoChrg 27
+#define indNoOilp 28
+#define indLgtHzd 29
+#define indAirLow 30
+#define indFueLow 31
+#define indChcEng 32
+#define indRetard 33
+#define indCruise 34
 
 String msg;
 
@@ -95,7 +102,7 @@ void setup() {
   wipSpd1.begin();
   wipSpd2.begin();
   wipSpd3.begin();
-  elcOff.begin();
+  //elcOff.begin();
   elcIgn.begin();
   engSrt.begin();
   trdWhl.begin();
@@ -126,6 +133,12 @@ void setup() {
   pinMode(indHndBrk, OUTPUT);
   pinMode(indNoChrg, OUTPUT);
   pinMode(indNoOilp, OUTPUT);
+  pinMode(indAirLow, OUTPUT);
+  pinMode(indLgtHzd, OUTPUT);
+  pinMode(indFueLow, OUTPUT);
+  pinMode(indChcEng, OUTPUT);
+  pinMode(indRetard, OUTPUT);
+  pinMode(indCruise, OUTPUT);
   
   digitalWrite(indLgtPrk, HIGH);      // LED test
   digitalWrite(indLgtLow, HIGH);
@@ -137,6 +150,12 @@ void setup() {
   digitalWrite(indHndBrk, HIGH);
   digitalWrite(indNoChrg, HIGH);
   digitalWrite(indNoOilp, HIGH);
+  digitalWrite(indAirLow, HIGH);
+  digitalWrite(indLgtHzd, HIGH);
+  digitalWrite(indFueLow, HIGH);
+  digitalWrite(indChcEng, HIGH);
+  digitalWrite(indRetard, HIGH);
+  digitalWrite(indCruise, HIGH);
 
   delay(500);
 
@@ -150,6 +169,12 @@ void setup() {
   digitalWrite(indHndBrk, LOW);
   digitalWrite(indNoChrg, LOW);
   digitalWrite(indNoOilp, LOW);
+  digitalWrite(indAirLow, LOW);
+  digitalWrite(indLgtHzd, LOW);
+  digitalWrite(indFueLow, LOW);
+  digitalWrite(indChcEng, LOW);
+  digitalWrite(indRetard, LOW);
+  digitalWrite(indCruise, LOW);
 
   if (emergency.read() == Button::PRESSED) {
     digitalWrite(indBlnLft, HIGH);
@@ -179,6 +204,7 @@ void loop() {
     if (msg == "indBlnOff") {
       digitalWrite(indBlnLft, LOW);
       digitalWrite(indBlnRgt, LOW);
+      digitalWrite(indLgtHzd, LOW);
     }
 
     if (msg == "indBlnLftOn") {
@@ -194,6 +220,7 @@ void loop() {
     if (msg == "indHzdOn") {
       digitalWrite(indBlnLft, HIGH);
       digitalWrite(indBlnRgt, HIGH);
+      digitalWrite(indLgtHzd, HIGH);
     }
 
     pinIo(indLgtPrk, "indLgtPrkOn", "indLgtPrkOff");
@@ -203,6 +230,11 @@ void loop() {
     pinIo(indHndBrk, "indHndBrkOn", "indHndBrkOff");
     pinIo(indNoChrg, "indNoChrgOn", "indNoChrgOff");
     pinIo(indNoOilp, "indNoOilpOn", "indNoOilpOff");
+    pinIo(indAirLow, "indAirLowOn", "indAirLowOff");
+    pinIo(indFueLow, "indFueLowOn", "indFueLowOff");
+    pinIo(indChcEng, "indChcEngOn", "indChcEngOff");
+    pinIo(indRetard, "indRetardOn", "indRetardOff");
+    pinIo(indCruise, "indCruiseOn", "indCruiseOff");
 
   }
 
@@ -216,6 +248,7 @@ void loop() {
       digitalWrite(indNoOilp, LOW);
       digitalWrite(indNoChrg, LOW);
       digitalWrite(indLgtPrk, LOW);
+      digitalWrite(indLgtLow, LOW);
     }
 
     //retarder
@@ -288,7 +321,7 @@ void loop() {
     }
 
     // electrics/ignition/start
-    if (elcOff.pressed()) {
+    if (elcIgn.released()) {                      // Function changed from using a dedicated ignition off pin
       Serial.println("elcOff");
     }
     if (elcIgn.pressed()) {
@@ -407,7 +440,7 @@ void loop() {
     digitalWrite(indLgtLow, LOW);
     delay(100);
   }
-
-  // Added this here so the code is exactly 400 lines. May the gods of semicolons bless you.
   
+  // Switching to VScode did help. :-)
+
 }
