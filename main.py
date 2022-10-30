@@ -4,12 +4,11 @@ import yaml
 import serial.tools.list_ports
 import firstrun
 import keyboard
-import pydirectinput as pyautogui
 import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 name = "TruControl Custom"  # code cleaned up
-version = "0.1.2"
+version = "0.1.3"
 
 def getState(chckState):  # only checks in preloaded list
     global data_truck
@@ -100,6 +99,19 @@ indHndBrkPrevState = getPrevState('parkBrakeOn')  #
 indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')  #
 indNoOilpPrevState = getPrevState('oilPressureWarningOn')  #
 truckElecPrevState = getPrevState('electricOn')
+indAirLowPrevState = getPrevState('airPressureWarningOn')
+indFueLowPrevState = getPrevState('fuelWarningOn')
+indChcEngValPrevState = getPrevState('wearEngine')
+indRetardValPrevState = getPrevState('retarderBrake')
+indCruisePrevState = getPrevState('cruiseControlOn')
+if indChcEngValPrevState < 10:
+    indChcEngPrevState = False
+elif indChcEngValPrevState >=10:
+    indChcEngPrevState = True
+if indRetardValPrevState == 0:
+    indRetardPrevState = False
+if indRetardValPrevState > 0:
+    indRetardPrevState = True
 
 retarderKeys = inputhandling.keys.Switches.Retarder()
 lightKeys = inputhandling.keys.Switches.Lights()
@@ -113,123 +125,124 @@ windowButtons = inputhandling.keys.Buttons.Windows()
 suspensionButtons = inputhandling.keys.Buttons.Suspension()
 
 while True:
-    while arduino.inWaiting():  # input handling
-        message = arduino.readline().decode('utf-8').partition('\r')[0]
+    if readConfig('inputsEnabled'):
+        while arduino.inWaiting():  # input handling
+            message = arduino.readline().decode('utf-8').partition('\r')[0]
 
-        # retarder
-        if message == 'retOff':
-            pyautogui.press(retarderKeys.retOffKey)
-        elif message == 'retPos1':
-            pyautogui.press(retarderKeys.retPos1Key)
-        elif message == 'retPos2':
-            pyautogui.press(retarderKeys.retPos2Key)
-        elif message == 'retPos3':
-            pyautogui.press(retarderKeys.retPos3Key)
-        elif message == 'retPos4':
-            pyautogui.press(retarderKeys.retPos4Key)
+            # retarder
+            if message == 'retOff':
+                keyboard.press_and_release(retarderKeys.retOffKey)
+            elif message == 'retPos1':
+                keyboard.press_and_release(retarderKeys.retPos1Key)
+            elif message == 'retPos2':
+                keyboard.press_and_release(retarderKeys.retPos2Key)
+            elif message == 'retPos3':
+                keyboard.press_and_release(retarderKeys.retPos3Key)
+            elif message == 'retPos4':
+                keyboard.press_and_release(retarderKeys.retPos4Key)
 
-        # lights
-        elif message == 'lgtOff':
-            pyautogui.press(lightKeys.lgtOffKey)
-        elif message == 'lgtPrk':
-            pyautogui.press(lightKeys.lgtPrkKey)
-        elif message == 'lgtLow':
-            pyautogui.press(lightKeys.lgtLowKey)
-        elif message == 'lgtHgh':
-            pyautogui.press(lightKeys.lgtHghKey)
+            # lights
+            elif message == 'lgtOff':
+                keyboard.press_and_release(lightKeys.lgtOffKey)
+            elif message == 'lgtPrk':
+                keyboard.press_and_release(lightKeys.lgtPrkKey)
+            elif message == 'lgtLow':
+                keyboard.press_and_release(lightKeys.lgtLowKey)
+            elif message == 'lgtHgh':
+                keyboard.press_and_release(lightKeys.lgtHghKey)
 
-        # blinkers
-        elif message == 'blnLftOn' or message == 'blnLftOff':
-            pyautogui.press(blinkerKeys.blnLftKey)
-        elif message == 'blnRgtOn' or message == 'blnRgtOff':
-            pyautogui.press(blinkerKeys.blnRgtKey)
+            # blinkers
+            elif message == 'blnLftOn' or message == 'blnLftOff':
+                keyboard.press_and_release(blinkerKeys.blnLftKey)
+            elif message == 'blnRgtOn' or message == 'blnRgtOff':
+                keyboard.press_and_release(blinkerKeys.blnRgtKey)
 
-        # wipers
-        elif message == 'wipOff':
-            keyboard.press_and_release(wiperKeys.wipOffKey)
-        elif message == 'wipSpd1':
-            keyboard.press_and_release(wiperKeys.wipSpd1Key)
-        elif message == 'wipSpd2':
-            keyboard.press_and_release(wiperKeys.wipSpd2Key)
-        elif message == 'wipSpd3':
-            keyboard.press_and_release(wiperKeys.wipSpd3Key)
+            # wipers
+            elif message == 'wipOff':
+                keyboard.press_and_release(wiperKeys.wipOffKey)
+            elif message == 'wipSpd1':
+                keyboard.press_and_release(wiperKeys.wipSpd1Key)
+            elif message == 'wipSpd2':
+                keyboard.press_and_release(wiperKeys.wipSpd2Key)
+            elif message == 'wipSpd3':
+                keyboard.press_and_release(wiperKeys.wipSpd3Key)
 
-        # ignition and electrics - NOTE: handled by keyboard module due to the numpad limitations of pyautogui
-        elif message == 'elcOff':
-            keyboard.press_and_release(ignitionKeys.elcOffKey)
-        elif message == 'elcIgn':
-            keyboard.press_and_release(ignitionKeys.elcIgnKey)
-        elif message == 'engSrt':
-            keyboard.press_and_release(ignitionKeys.engSrtKey)
+            # ignition and electrics
+            elif message == 'elcOff':
+                keyboard.press_and_release(ignitionKeys.elcOffKey)
+            elif message == 'elcIgn':
+                keyboard.press_and_release(ignitionKeys.elcIgnKey)
+            elif message == 'engSrt':
+                keyboard.press_and_release(ignitionKeys.engSrtKey)
 
-        # switches on the switchboard:
-        elif message == 'trdWhl':
-            pyautogui.press(switchboardKeys.trdWhlKey)
-        elif message == 'lgtBcn':
-            pyautogui.press(switchboardKeys.lgtBcnKey)
-        elif message == 'lgtHzd':
-            pyautogui.press(switchboardKeys.lgtHzdKey)
-        elif message == 'difLoc':
-            pyautogui.press(switchboardKeys.difLocKey)
-        elif message == 'hndBrk':
-            pyautogui.press(switchboardKeys.hndBrkKey)
+            # switches on the switchboard:
+            elif message == 'trdWhl':
+                keyboard.press_and_release(switchboardKeys.trdWhlKey)
+            elif message == 'lgtBcn':
+                keyboard.press_and_release(switchboardKeys.lgtBcnKey)
+            elif message == 'lgtHzd':
+                keyboard.press_and_release(switchboardKeys.lgtHzdKey)
+            elif message == 'difLoc':
+                keyboard.press_and_release(switchboardKeys.difLocKey)
+            elif message == 'hndBrk':
+                keyboard.press_and_release(switchboardKeys.hndBrkKey)
 
-        # engine brake
-        elif message == 'engBrkOn':
-            pyautogui.keyDown(switchboardButtons.engBrkKey)
-        elif message == 'engBrkOff':
-            pyautogui.keyUp(switchboardButtons.engBrkKey)
+            # engine brake
+            elif message == 'engBrkOn':
+                keyboard.press(switchboardButtons.engBrkKey)
+            elif message == 'engBrkOff':
+                keyboard.release(switchboardButtons.engBrkKey)
 
-        # axle lifting
-        elif message == 'truAxl':
-            pyautogui.press(switchboardButtons.truAxlKey)
-        elif message == 'trlAxl':
-            pyautogui.press(switchboardButtons.trlAxlKey)
+            # axle lifting
+            elif message == 'truAxl':
+                keyboard.press_and_release(switchboardButtons.truAxlKey)
+            elif message == 'trlAxl':
+                keyboard.press_and_release(switchboardButtons.trlAxlKey)
 
-        # windows
-        # right window
-        elif message == 'winRdnOn':
-            pyautogui.keyDown(windowButtons.winRdnKey)
-        elif message == 'winRdnOff':
-            pyautogui.keyUp(windowButtons.winRdnKey)
-        elif message == 'winRupOn':
-            pyautogui.keyDown(windowButtons.winRupKey)
-        elif message == 'winRupOff':
-            pyautogui.keyUp(windowButtons.winRupKey)
+            # windows
+            # right window
+            elif message == 'winRdnOn':
+                keyboard.press(windowButtons.winRdnKey)
+            elif message == 'winRdnOff':
+                keyboard.release(windowButtons.winRdnKey)
+            elif message == 'winRupOn':
+                keyboard.press(windowButtons.winRupKey)
+            elif message == 'winRupOff':
+                keyboard.release(windowButtons.winRupKey)
 
-        # left window
-        elif message == 'winLdnOn':
-            pyautogui.keyDown(windowButtons.winLdnKey)
-        elif message == 'winLdnOff':
-            pyautogui.keyUp(windowButtons.winLdnKey)
-        elif message == 'winLupOn':
-            pyautogui.keyDown(windowButtons.winLupKey)
-        elif message == 'winLdnOn':
-            pyautogui.keyUp(windowButtons.winLupKey)
+            # left window
+            elif message == 'winLdnOn':
+                keyboard.press(windowButtons.winLdnKey)
+            elif message == 'winLdnOff':
+                keyboard.release(windowButtons.winLdnKey)
+            elif message == 'winLupOn':
+                keyboard.press(windowButtons.winLupKey)
+            elif message == 'winLdnOn':
+                keyboard.release(windowButtons.winLupKey)
 
-        # suspension
-        # front suspension
-        elif message == 'susFrtUpOn':
-            keyboard.press(suspensionButtons.susFrtUpKey)
-        elif message == 'susFrtUpOff':
-            keyboard.release(suspensionButtons.susFrtUpKey)
-        elif message == 'susFrtDnOn':
-            keyboard.press(suspensionButtons.susFrtDnKey)
-        elif message == 'susFrtUpOn':
-            keyboard.release(suspensionButtons.susFrtDnKey)
+            # suspension
+            # front suspension
+            elif message == 'susFrtUpOn':
+                keyboard.press(suspensionButtons.susFrtUpKey)
+            elif message == 'susFrtUpOff':
+                keyboard.release(suspensionButtons.susFrtUpKey)
+            elif message == 'susFrtDnOn':
+                keyboard.press(suspensionButtons.susFrtDnKey)
+            elif message == 'susFrtUpOn':
+                keyboard.release(suspensionButtons.susFrtDnKey)
 
-        # rear suspension
-        elif message == 'susBckUpOn':
-            keyboard.press(suspensionButtons.susBckUpKey)
-        elif message == 'susBckUpOff':
-            keyboard.release(suspensionButtons.susBckUpKey)
-        elif message == 'susBckDnOn':
-            keyboard.press(suspensionButtons.susBckDnKey)
-        elif message == 'susBckDnOff':
-            keyboard.release(suspensionButtons.susBckDnKey)
+            # rear suspension
+            elif message == 'susBckUpOn':
+                keyboard.press(suspensionButtons.susBckUpKey)
+            elif message == 'susBckUpOff':
+                keyboard.release(suspensionButtons.susBckUpKey)
+            elif message == 'susBckDnOn':
+                keyboard.press(suspensionButtons.susBckDnKey)
+            elif message == 'susBckDnOff':
+                keyboard.release(suspensionButtons.susBckDnKey)
 
-        elif message == 'susReset':
-            pyautogui.press(suspensionButtons.susResetKey)
+            elif message == 'susReset':
+                keyboard.press_and_release(suspensionButtons.susResetKey)
 
         if debugMode:
             if message == 'hndshkresp':
@@ -249,6 +262,22 @@ while True:
     indNoChrg = getState('batteryVoltageWarningOn')
     indNoOilp = getState('oilPressureWarningOn')
     truckElec = getState('electricOn')
+    indAirLow = getState('airPressureWarningOn')
+    indFueLow = getState('fuelWarningOn')
+    indChcEngVal = getState('wearEngine')
+    indRetardVal = getState('retarderBrake')
+    indCruise = getState('cruiseControlOn')
+
+    if indChcEngVal != indChcEngPrevState:
+        if indChcEngVal < 0.1:
+            indChcEngState = False
+        elif indChcEngVal >= 0.1:
+            indChcEngState = True
+
+    if indRetardVal > 0:
+        indRetardState = True
+    elif indRetardVal == 0:
+        indRetardState = False
 
     if (not indBlnLft) and (not indBlnRgt) and (blinkerPrevState != 0):
         sendArduino('indBlnOff')
@@ -342,6 +371,55 @@ while True:
                 debugprint('High beams are off, code sent!')
                 indLgtHghPrevState = False
 
+        if indAirLow != indAirLowPrevState:
+            if indAirLow:
+                sendArduino('indAirLowOn')
+                debugprint('Air pressure warning on, code sent!')
+                indAirLowPrevState = True
+            elif not indAirLow:
+                sendArduino('indAirLowOff')
+                debugprint('Air pressure warning off, code sent!')
+                indAirLowPrevState = False
+
+        if indFueLow != indFueLowPrevState:
+            if indFueLow:
+                sendArduino('indFueLowOn')
+                debugprint('Fuel warning on, code sent!')
+                indFueLowPrevState = True
+            elif not indFueLow:
+                sendArduino('indFueLowOff')
+                debugprint('Fuel warning off, code sent!')
+                indFueLowPrevState = False
+
+        if indChcEngState != indChcEngPrevState:
+            if indChcEngState:
+                sendArduino('indChcEngOn')
+                debugprint('Check engine light on, code sent!')
+                indChcEngPrevState = True
+            elif not indChcEngState:
+                sendArduino('indChcEngOff')
+                debugprint('Check engine light off, code sent!')
+                indChcEngPrevState = False
+
+        if  indRetardState != indRetardPrevState:
+            if indRetardState:
+                sendArduino('indRetardOn')
+                debugprint('Retarder light on, code sent!')
+                indRetardPrevState = True
+            elif not indRetardState:
+                sendArduino('indRetardOff')
+                debugprint('Retarder light off, code sent!')
+                indRetardPrevState = False
+        if indCruise != indCruisePrevState:
+            if indCruise:
+                sendArduino('indCruiseOn')
+                debugprint('Cruise control on, code sent!')
+                indCruisePrevState = True
+            elif not indCruise:
+                sendArduino('indCruiseOff')
+                debugprint('Cruise control off, code sent!')
+                indCruisePrevState = False
+
         truckElecPrevState = True
 
     if (not truckElec) and truckElecPrevState:
@@ -369,3 +447,23 @@ while True:
             sendArduino('indLgtHghOff')
             debugprint('High beams off with electricity, code sent!')
             indLgtHghPrevState = False
+        if indAirLowPrevState:
+            sendArduino('indAirLowOff')
+            debugprint('Air warning light off with electricity, code sent!')
+            indAirLowPrevState = False
+        if indFueLowPrevState:
+            sendArduino('indFueLowOff')
+            debugprint('Fuel warning light off with electricity, code sent!')
+            indFueLowPrevState = False
+        if indChcEngPrevState:
+            sendArduino('indChcEngOff')
+            debugprint('Check engine light off with electricity, code sent!')
+            indChcEngPrevState = False
+        if indRetardPrevState:
+            sendArduino('indRetardOff')
+            debugprint('Retarder light off with electricity, code sent!')
+            indRetardPrevState = False
+        if indCruisePrevState:
+            sendArduino('indCruiseOff')
+            debugprint('Cruise control off with electricity, code sent!')
+            indCruisePrevState = False

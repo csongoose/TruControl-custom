@@ -1,31 +1,31 @@
-# Note: Due to software limitations and the original implementation, the marked values are handled by the keyboard module instead of pyautogui.
-# This means that in case of changing values, the keyboard module's valid keys must be used instead of the pyautogui ones.
-# The keyboard module valid keys can be found in the validkeys.md file. The pyautogui valid keys can be accessed on the following url: https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
+#Note: Inputs are handled by the keyboard library. You can find the valid values for keys in the validkeys.md file.
+#Due to an old limitation of computers, the numpad divide key cannot be used.
+#Due to a limitation in the keyboard module, the numpad keys simply press the alphanumeric num values. E.g.: "num 3" = "3"
 
 Switches:
   Retarder:
-    retOffKey: numpad0
-    retPos1Key: numpad1
-    retPos2Key: numpad2
-    retPos3Key: numpad3
-    retPos4Key: numpad4
+    retOffKey: num 0
+    retPos1Key: num 1
+    retPos2Key: num 2
+    retPos3Key: num 3
+    retPos4Key: num 4
   Lights:
     lgtOffKey: l
-    lgtPrkKey: Home
-    lgtLowKey: End
+    lgtPrkKey: home
+    lgtLowKey: end
     lgtHghKey: k
   Blinkers:
     blnLftKey: left
     blnRgtKey: right
   Wipers:
-    wipOffKey: F13                      # handled by keyboard module
-    wipSpd1Key: F14                     # handled by keyboard module
-    wipSpd2Key: F15                     # handled by keyboard module
-    wipSpd3Key: F16                     # handled by keyboard module
+    wipOffKey: f13
+    wipSpd1Key: f14
+    wipSpd2Key: f15
+    wipSpd3Key: f16
   Ignition:
-    elcOffKey: num divide               # handled by keyboard module
-    elcIgnKey: num multiply             # handled by keyboard module
-    engSrtKey: num minus                # handled by keyboard module
+    elcOffKey: /
+    elcIgnKey: multiply
+    engSrtKey: subtract
   Switchboard:
     trdWhlKey: t
     lgtBcnKey: o
@@ -45,9 +45,9 @@ Buttons:
     winRdnKey: pageup
     winRupKey: pagedown
   Suspension:
-    susFrtUpKey: F17                    # handled by keyboard module
-    susFrtDnKey: F18                    # handled by keyboard module
-    susBckUpKey: F19                    # handled by keyboard module
-    susBckDnKey: F20                    # handled by keyboard module
-    susResetKey: num plus               # handled by keyboard module
+    susFrtUpKey: f17
+    susFrtDnKey: f18
+    susBckUpKey: f19
+    susBckDnKey: f20
+    susResetKey: add
 
