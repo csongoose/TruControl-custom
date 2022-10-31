@@ -268,11 +268,10 @@ while True:
     indRetardVal = getState('retarderBrake')
     indCruise = getState('cruiseControlOn')
 
-    if indChcEngVal != indChcEngPrevState:
-        if indChcEngVal < 0.1:
-            indChcEngState = False
-        elif indChcEngVal >= 0.1:
-            indChcEngState = True
+    if indChcEngVal < 0.1:
+        indChcEngState = False
+    elif indChcEngVal >= 0.1:
+        indChcEngState = True
 
     if indRetardVal > 0:
         indRetardState = True
