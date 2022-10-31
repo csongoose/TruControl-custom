@@ -63,7 +63,6 @@ debugprint(url)
 print('Attempting connection with the arduino...')
 try:
     arduino = serial.Serial(port=port, baudrate=baudRate, timeout=.1)
-    sendArduino('hndshk')
 except Exception as e2:
     print('Connection failed!')
     debugprint(e2)
