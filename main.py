@@ -10,6 +10,8 @@ from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 name = "TruControl Custom"  # code cleaned up
 version = "0.1.3"
 
+print(readConfig('inputsEnabled'))
+
 def getState(chckState):  # only checks in preloaded list
     global data_truck
     state = data_truck.get(chckState)
@@ -244,9 +246,9 @@ while True:
             elif message == 'susReset':
                 keyboard.press_and_release(suspensionButtons.susResetKey)
 
-        if debugMode:
-            if message == 'hndshkresp':
-                print('Handshake completed!')
+            if debugMode:
+                if message == 'hndshkresp':
+                    print('Handshake completed!')
 
     response = urlopen(url)
     data_json = json.loads(response.read())
