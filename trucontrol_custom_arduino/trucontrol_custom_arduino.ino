@@ -1,3 +1,5 @@
+// for version 0.1.4
+
 #include <Button.h>
 #include <HardwareSerial.h>
 
@@ -60,6 +62,7 @@ Button deSync(54);
 #define indChcEng 32
 #define indRetard 33
 #define indCruise 34
+#define indWatTem 35
 
 String msg;
 
@@ -139,6 +142,7 @@ void setup() {
   pinMode(indChcEng, OUTPUT);
   pinMode(indRetard, OUTPUT);
   pinMode(indCruise, OUTPUT);
+  pinMode(indWatTem, OUTPUT);
   
   digitalWrite(indLgtPrk, HIGH);      // LED test
   digitalWrite(indLgtLow, HIGH);
@@ -156,6 +160,7 @@ void setup() {
   digitalWrite(indChcEng, HIGH);
   digitalWrite(indRetard, HIGH);
   digitalWrite(indCruise, HIGH);
+  digitalWrite(indWatTem, HIGH);
 
   delay(500);
 
@@ -175,6 +180,7 @@ void setup() {
   digitalWrite(indChcEng, LOW);
   digitalWrite(indRetard, LOW);
   digitalWrite(indCruise, LOW);
+  digitalWrite(indWatTem, LOW);
 
   if (emergency.read() == Button::PRESSED) {
     digitalWrite(indBlnLft, HIGH);
@@ -235,6 +241,7 @@ void loop() {
     pinIo(indChcEng, "indChcEngOn", "indChcEngOff");
     pinIo(indRetard, "indRetardOn", "indRetardOff");
     pinIo(indCruise, "indCruiseOn", "indCruiseOff");
+    pinIo(indWatTem, "indWatTemOn", "indWatTemOff");
 
   }
 
