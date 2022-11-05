@@ -1,0 +1,5 @@
+{
+    "sketch": "trucontrol_custom_arduino.ino",
+    "board": "arduino:avr:mega",
+    "configuration": "cpu=atmega1280"
+}
