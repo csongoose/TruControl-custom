@@ -8,7 +8,7 @@ import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 name = "TruControl Custom"  # code cleaned up
-version = "0.1.3"
+version = "0.1.4"
 
 print(readConfig('inputsEnabled'))
 
