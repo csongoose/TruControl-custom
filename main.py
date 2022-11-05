@@ -92,22 +92,24 @@ while True:  # initializing
 
 blinkerPrevState = 3  # initial variable settings
 indLgtHghPrevState = getPrevState('lightsBeamHighOn')
-indLgtPrkPrevState = getPrevState('lightsParkingOn')  #
-indLgtLowPrevState = getPrevState('lightsBeamLowOn')  #
-indLgtBcnPrevState = getPrevState('lightsBeaconOn')  #
+indLgtPrkPrevState = getPrevState('lightsParkingOn')
+indLgtLowPrevState = getPrevState('lightsBeamLowOn')
+indLgtBcnPrevState = getPrevState('lightsBeaconOn')
 # no diff lock info!
-indHndBrkPrevState = getPrevState('parkBrakeOn')  #
-indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')  #
-indNoOilpPrevState = getPrevState('oilPressureWarningOn')  #
+indHndBrkPrevState = getPrevState('parkBrakeOn')
+indNoChrgPrevState = getPrevState('batteryVoltageWarningOn')
+indNoOilpPrevState = getPrevState('oilPressureWarningOn')
 truckElecPrevState = getPrevState('electricOn')
 indAirLowPrevState = getPrevState('airPressureWarningOn')
 indFueLowPrevState = getPrevState('fuelWarningOn')
 indChcEngValPrevState = getPrevState('wearEngine')
 indRetardValPrevState = getPrevState('retarderBrake')
 indCruisePrevState = getPrevState('cruiseControlOn')
-if indChcEngValPrevState < 10:
+indWaterTempPrevState = getPrevState('waterTemperatureWarningOn')
+
+if indChcEngValPrevState < 0.1:
     indChcEngPrevState = False
-elif indChcEngValPrevState >=10:
+elif indChcEngValPrevState >=0.1:
     indChcEngPrevState = True
 if indRetardValPrevState == 0:
     indRetardPrevState = False
@@ -218,7 +220,7 @@ while True:
                 keyboard.release(windowButtons.winLdnKey)
             elif message == 'winLupOn':
                 keyboard.press(windowButtons.winLupKey)
-            elif message == 'winLdnOn':
+            elif message == 'winLdnOff':
                 keyboard.release(windowButtons.winLupKey)
 
             # suspension
@@ -229,7 +231,7 @@ while True:
                 keyboard.release(suspensionButtons.susFrtUpKey)
             elif message == 'susFrtDnOn':
                 keyboard.press(suspensionButtons.susFrtDnKey)
-            elif message == 'susFrtUpOn':
+            elif message == 'susFrtUpOff':
                 keyboard.release(suspensionButtons.susFrtDnKey)
 
             # rear suspension
@@ -268,6 +270,7 @@ while True:
     indChcEngVal = getState('wearEngine')
     indRetardVal = getState('retarderBrake')
     indCruise = getState('cruiseControlOn')
+    indWaterTemp = getState('waterTemperatureWarningOn')
 
     if indChcEngVal < 0.1:
         indChcEngState = False
@@ -401,7 +404,7 @@ while True:
                 debugprint('Check engine light off, code sent!')
                 indChcEngPrevState = False
 
-        if  indRetardState != indRetardPrevState:
+        if indRetardState != indRetardPrevState:
             if indRetardState:
                 sendArduino('indRetardOn')
                 debugprint('Retarder light on, code sent!')
@@ -419,6 +422,16 @@ while True:
                 sendArduino('indCruiseOff')
                 debugprint('Cruise control off, code sent!')
                 indCruisePrevState = False
+
+        if indWaterTemp != indWaterTempPrevState:
+            if indWaterTemp:
+                sendArduino('indWatTemOn')
+                debugprint('Water temperature warning on, code sent!')
+                indWaterTempPrevState = True
+            elif not indWaterTemp:
+                sendArduino('indWatTemOff')
+                debugprint('Water temperature warning off, code sent!')
+                indWaterTempPrevState = False
 
         truckElecPrevState = True
 
@@ -467,3 +480,7 @@ while True:
             sendArduino('indCruiseOff')
             debugprint('Cruise control off with electricity, code sent!')
             indCruisePrevState = False
+        if indWaterTempPrevState:
+            sendArduino('indWatTemOff')
+            debugprint('Water temperature warning off with electricity, code sent!')
+            indWaterTempPrevState = False

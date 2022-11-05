@@ -1,8 +1,8 @@
 ARDUINO:
-  baudRate: 9600
-  port: COM4
+  baudRate: 9600                                                  # Only modify if you are absolutely certain about what you are doing.
+  port: COM4                                                      # Communication port for the arduino. Set in the setup function.
 CONFIG:
-  debugMode: false
+  debugMode: false                                                # Debug mode - used for development only.
   firstRun: true
-  url: http://192.168.1.101:25555/api/ets2/telemetry
-  inputsEnabled: false
+  url: http://192.168.1.101:25555/api/ets2/telemetry              # Url for the telemetry server. Set in the setup function.
+  inputsEnabled: true                                             # Enables the inputs coming from the arduino

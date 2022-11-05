@@ -4,28 +4,28 @@
 
 Switches:
   Retarder:
-    retOffKey: num 0
-    retPos1Key: num 1
-    retPos2Key: num 2
-    retPos3Key: num 3
-    retPos4Key: num 4
+    retOffKey: shift+1
+    retPos1Key: shift+2
+    retPos2Key: shift+3
+    retPos3Key: shift+4
+    retPos4Key: shift+5
   Lights:
     lgtOffKey: l
-    lgtPrkKey: home
-    lgtLowKey: end
+    lgtPrkKey: ctrl+l
+    lgtLowKey: shift+l
     lgtHghKey: k
   Blinkers:
-    blnLftKey: left
-    blnRgtKey: right
+    blnLftKey: shift+q
+    blnRgtKey: q
   Wipers:
-    wipOffKey: f13
-    wipSpd1Key: f14
-    wipSpd2Key: f15
-    wipSpd3Key: f16
+    wipOffKey: p
+    wipSpd1Key: ctrl+p
+    wipSpd2Key: shift+p
+    wipSpd3Key: alt+p
   Ignition:
-    elcOffKey: /
-    elcIgnKey: multiply
-    engSrtKey: subtract
+    elcOffKey: e
+    elcIgnKey: z
+    engSrtKey: x
   Switchboard:
     trdWhlKey: t
     lgtBcnKey: o
@@ -37,17 +37,16 @@ Switches:
 Buttons:
   Switchboard:
     engBrkKey: b
-    truAxlKey: u
-    trlAxlKey: y
+    truAxlKey: y
+    trlAxlKey: shift+y
   Windows:
-    winLdnKey: delete
-    winLupKey: insert
-    winRdnKey: pageup
-    winRupKey: pagedown
+    winLdnKey: ctrl+u
+    winLupKey: alt+u
+    winRdnKey: ctrl+k
+    winRupKey: alt+k
   Suspension:
-    susFrtUpKey: f17
-    susFrtDnKey: f18
-    susBckUpKey: f19
-    susBckDnKey: f20
-    susResetKey: add
-
+    susFrtUpKey: ctrl + f5
+    susFrtDnKey: ctrl + f6
+    susBckUpKey: ctrl + f7
+    susBckDnKey: ctrl + f8
+    susResetKey: ctrl + f9
