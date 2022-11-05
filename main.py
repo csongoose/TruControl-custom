@@ -220,7 +220,7 @@ while True:
                 keyboard.release(windowButtons.winLdnKey)
             elif message == 'winLupOn':
                 keyboard.press(windowButtons.winLupKey)
-            elif message == 'winLdnOff':
+            elif message == 'winLupOff':
                 keyboard.release(windowButtons.winLupKey)
 
             # suspension
@@ -231,7 +231,7 @@ while True:
                 keyboard.release(suspensionButtons.susFrtUpKey)
             elif message == 'susFrtDnOn':
                 keyboard.press(suspensionButtons.susFrtDnKey)
-            elif message == 'susFrtUpOff':
+            elif message == 'susFrtDnOff':
                 keyboard.release(suspensionButtons.susFrtDnKey)
 
             # rear suspension
