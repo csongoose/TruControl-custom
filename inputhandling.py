@@ -14,7 +14,7 @@ class keys:
             def __init__(self):
                 self.lgtOffKey = getSwitch('Lights', 'lgtOffKey')
                 self.lgtPrkKey = getSwitch('Lights', 'lgtPrkKey')
-                self.lgtLowKey = getSwitch('Lights', 'lgtPrkKey')
+                self.lgtLowKey = getSwitch('Lights', 'lgtLowKey')
                 self.lgtHghKey = getSwitch('Lights', 'lgtHghKey')
 
         class Blinkers:

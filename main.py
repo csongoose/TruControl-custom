@@ -8,7 +8,7 @@ import inputhandling
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 name = "TruControl Custom"  # code cleaned up
-version = "0.1.4"
+version = "0.1.4c"
 
 print(readConfig('inputsEnabled'))
 
@@ -225,7 +225,7 @@ while True:
                 keyboard.release(windowButtons.winLdnKey)
             elif message == 'winLupOn':
                 keyboard.press(windowButtons.winLupKey)
-            elif message == 'winLdnOff':
+            elif message == 'winLupOff':
                 keyboard.release(windowButtons.winLupKey)
 
             # suspension
@@ -236,7 +236,7 @@ while True:
                 keyboard.release(suspensionButtons.susFrtUpKey)
             elif message == 'susFrtDnOn':
                 keyboard.press(suspensionButtons.susFrtDnKey)
-            elif message == 'susFrtUpOff':
+            elif message == 'susFrtDnOff':
                 keyboard.release(suspensionButtons.susFrtDnKey)
 
             # rear suspension
