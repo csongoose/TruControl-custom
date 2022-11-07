@@ -172,11 +172,16 @@ while True:
 
             # ignition and electrics
             elif message == 'elcOff':
-                keyboard.press_and_release(ignitionKeys.elcOffKey)
+                keyboard.press(ignitionKeys.elcOffKey)
+                keyboard.release(ignitionKeys.elcIgnKey)
+                keyboard.release(ignitionKeys.engSrtKey)
             elif message == 'elcIgn':
-                keyboard.press_and_release(ignitionKeys.elcIgnKey)
+                keyboard.press(ignitionKeys.elcIgnKey)
+                keyboard.release(ignitionKeys.elcOffKey)
+                keyboard.release(ignitionKeys.engSrtKey)
             elif message == 'engSrt':
-                keyboard.press_and_release(ignitionKeys.engSrtKey)
+                keyboard.press(ignitionKeys.engSrtKey)
+                keyboard.release(ignitionKeys.elcOffKey)
 
             # switches on the switchboard:
             elif message == 'trdWhl':
