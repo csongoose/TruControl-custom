@@ -5,6 +5,7 @@ import serial.tools.list_ports
 import firstrun
 import keyboard
 import inputhandling
+from time import sleep
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 name = "TruControl Custom"  # code cleaned up
@@ -30,6 +31,11 @@ def getPrevState(chckState):  # loads url every instance to avoid desync
 def sendArduino(msg):
     arduino.write(bytes(msg, 'utf-8'))
     arduino.write(b'\n')
+
+def keyPressLong(key, time):
+    keyboard.press(key)
+    sleep(time)
+    keyboard.release(key)
 
 
 # read config file:
@@ -134,25 +140,25 @@ while True:
 
             # retarder
             if message == 'retOff':
-                keyboard.press_and_release(retarderKeys.retOffKey)
+                keyPressLong(retarderKeys.retOffKey, 0.05)
             elif message == 'retPos1':
-                keyboard.press_and_release(retarderKeys.retPos1Key)
+                keyPressLong(retarderKeys.retPos1Key, 0.05)
             elif message == 'retPos2':
-                keyboard.press_and_release(retarderKeys.retPos2Key)
+                keyPressLong(retarderKeys.retPos2Key, 0.05)
             elif message == 'retPos3':
-                keyboard.press_and_release(retarderKeys.retPos3Key)
+                keyPressLong(retarderKeys.retPos3Key, 0.05)
             elif message == 'retPos4':
-                keyboard.press_and_release(retarderKeys.retPos4Key)
+                keyPressLong(retarderKeys.retPos4Key, 0.05)
 
             # lights
             elif message == 'lgtOff':
-                keyboard.press_and_release(lightKeys.lgtOffKey)
+                keyPressLong(lightKeys.lgtOffKey, 0.05)
             elif message == 'lgtPrk':
-                keyboard.press_and_release(lightKeys.lgtPrkKey)
+                keyPressLong(lightKeys.lgtPrkKey, 0.05)
             elif message == 'lgtLow':
-                keyboard.press_and_release(lightKeys.lgtLowKey)
+                keyPressLong(lightKeys.lgtLowKey, 0.05)
             elif message == 'lgtHgh':
-                keyboard.press_and_release(lightKeys.lgtHghKey)
+                keyPressLong(lightKeys.lgtHghKey, 0.05)
 
             # blinkers
             elif message == 'blnLftOn' or message == 'blnLftOff':
@@ -162,21 +168,21 @@ while True:
 
             # wipers
             elif message == 'wipOff':
-                keyboard.press_and_release(wiperKeys.wipOffKey)
+                keyPressLong(wiperKeys.wipOffKey, 0.05)
             elif message == 'wipSpd1':
-                keyboard.press_and_release(wiperKeys.wipSpd1Key)
+                keyPressLong(wiperKeys.wipSpd1Key, 0.05)
             elif message == 'wipSpd2':
-                keyboard.press_and_release(wiperKeys.wipSpd2Key)
+                keyPressLong(wiperKeys.wipSpd2Key, 0.05)
             elif message == 'wipSpd3':
-                keyboard.press_and_release(wiperKeys.wipSpd3Key)
+                keyPressLong(wiperKeys.wipSpd3Key, 0.05)
 
             # ignition and electrics
             elif message == 'elcOff':
-                keyboard.press_and_release(ignitionKeys.elcOffKey)
+                keyPressLong(ignitionKeys.elcOffKey, 0.05)
             elif message == 'elcIgn':
-                keyboard.press_and_release(ignitionKeys.elcIgnKey)
+                keyPressLong(ignitionKeys.elcIgnKey, 0.05)
             elif message == 'engSrt':
-                keyboard.press_and_release(ignitionKeys.engSrtKey)
+                keyPressLong(ignitionKeys.engSrtKey, 0.05)
 
             # switches on the switchboard:
             elif message == 'trdWhl':
