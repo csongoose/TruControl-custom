@@ -9,7 +9,7 @@ from time import sleep
 from functions import (readConfig, readArduinoConfig, debugprint, askForSetup)
 
 name = "TruControl Custom"  # code cleaned up
-version = "0.1.4c"
+version = "0.1.5"
 
 print(readConfig('inputsEnabled'))
 
